@@ -1,0 +1,39 @@
+{
+  "code": "p001",
+  "name": "don-theme",
+  "title": "DONFramework",
+  "description": "Custom theme created by Rodrigo Donini",
+  "version": "1.0.0",
+  "framework_version": "1.0.0",
+  "homepage": "http://donini.me",
+  "author": {
+    "name": "Rodrigo Donini",
+    "email": "me@donini.me"
+  },
+  "database": {
+    "dbname": "localhost",
+    "dbuser": "root",
+    "dbpassword": "root",
+    "dbhost": "d00_don_framework"
+  },
+  "devDependencies": {
+    "grunt": "*",
+    "matchdep": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-nodeunit": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-string-replace": "*",
+    "connect-livereload": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-prompt": "*",
+    "grunt-imagine": "*",
+    "grunt-shell": "*",
+    "grunt-contrib-clean": "*"
+  },
+  "keywords": []
+}
