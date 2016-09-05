@@ -1,4 +1,4 @@
-# DON-WORDPRESS-BOILERPLATE
+# WORDPRESS-AUTOMATION
 
 This boilerplate create automations for Wordpress projects. It turn more easer the developer's life.
 
@@ -51,7 +51,7 @@ grunt
 ```
 and select the option you want.
 
-![alt text](http://www.wing.inf.br/github/wpbp/wpbp_startmenu.png "Start menu all options")
+![alt text](http://www.donini.me/github/wpbp/wpbp_startmenu.png "Start menu all options")
 
 ### Create new theme [DEVELOPMENT]
 
@@ -60,7 +60,7 @@ To create a new custom theme, use:
 grunt create        [OR]        grunt c
 ```
 
-![alt text](http://www.wing.inf.br/github/wpbp/wpbp_create.png "Create new theme parameters")
+![alt text](http://www.donini.me/github/wpbp/wpbp_create.png "Create new theme parameters")
 
 #### Parameters:
 
@@ -121,7 +121,7 @@ This command prepare the project to deploy into production server, it build ever
 grunt deploy        [OR]        grunt d
 ```
 
-![alt text](http://www.wing.inf.br/github/wpbp/wpbp_deploy.png "Deploy parameters")
+![alt text](http://www.donini.me/github/wpbp/wpbp_deploy.png "Deploy parameters")
 
 #### Parameters:
 

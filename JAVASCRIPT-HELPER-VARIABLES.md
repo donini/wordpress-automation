@@ -1,4 +1,4 @@
-# DON-WORDPRESS-BOILERPLATE
+# WORDPRESS-AUTOMATION
 
 ## Javascript Helper Variables
 

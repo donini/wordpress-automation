@@ -1,6 +1,6 @@
 {
-  "code": "p001",
-  "name": "don-theme",
+  "code": "wp-automation",
+  "name": "wp-automation",
   "title": "DONFramework",
   "description": "Custom theme created by Rodrigo Donini",
   "version": "1.0.0",
@@ -11,10 +11,10 @@
     "email": "me@donini.me"
   },
   "database": {
-    "dbname": "localhost",
+    "dbname": "d00_don_framework",
     "dbuser": "root",
     "dbpassword": "root",
-    "dbhost": "d00_don_framework"
+    "dbhost": "localhost"
   },
   "devDependencies": {
     "grunt": "*",
