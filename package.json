@@ -1,7 +1,7 @@
 {
   "code": "wp-automation",
   "name": "wp-automation",
-  "title": "\"WP Automationa\"",
+  "title": "sasa",
   "description": "Custom theme created by Rodrigo Donini",
   "version": "1.0.0",
   "framework_version": "1.1.0",
@@ -15,7 +15,7 @@
     "email": "me@donini.me"
   },
   "database": {
-    "dbname": "teste",
+    "dbname": "dp_wp_automation",
     "dbuser": "root",
     "dbpassword": "root",
     "dbhost": "localhost",
