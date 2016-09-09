@@ -1,39 +1,45 @@
 {
   "code": "wp-automation",
   "name": "wp-automation",
-  "title": "DONFramework",
+  "title": "\"WP Automationa\"",
   "description": "Custom theme created by Rodrigo Donini",
   "version": "1.0.0",
-  "framework_version": "1.0.0",
-  "homepage": "http://donini.me",
+  "framework_version": "1.1.0",
+  "homepage": "http://localhost/wp-automation",
+  "locale": "en_US",
+  "admin_user": "admin",
+  "admin_pass": "12345",
+  "admin_email": "admin@wordpress.local",
   "author": {
     "name": "Rodrigo Donini",
     "email": "me@donini.me"
   },
   "database": {
-    "dbname": "d00_don_framework",
+    "dbname": "teste",
     "dbuser": "root",
     "dbpassword": "root",
-    "dbhost": "localhost"
+    "dbhost": "localhost",
+    "dbprefix": "wpd_"
   },
   "devDependencies": {
+    "connect-livereload": "*",
     "grunt": "*",
-    "matchdep": "*",
+    "grunt-contrib-clean": "*",
     "grunt-contrib-concat": "*",
-    "grunt-contrib-uglify": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-copy": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-nodeunit": "*",
-    "grunt-contrib-watch": "*",
     "grunt-contrib-sass": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-string-replace": "*",
-    "connect-livereload": "*",
-    "grunt-contrib-connect": "*",
-    "grunt-prompt": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
     "grunt-imagine": "*",
+    "grunt-prompt": "*",
     "grunt-shell": "*",
-    "grunt-contrib-clean": "*"
+    "grunt-string-replace": "*",
+    "grunt-zip": "",
+    "matchdep": "*"
   },
   "keywords": []
 }

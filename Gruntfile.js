@@ -1,10 +1,10 @@
 module.exports = function( grunt ) {
 	'use strict';
 
-	// Load all grunt tasks
+	// LOAD ALL GRUNT TASKS
 	require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-	//deploy variables
+	//DEPLOY VARIABLES
 	var deployConfig = {
 		url: '',
 		database: '',
@@ -13,10 +13,61 @@ module.exports = function( grunt ) {
 		server: ''
 	};
 
-	// Project configuration
+	// PROJECT INIT
 	grunt.initConfig( {
 		deployConfig: deployConfig,
 		pkg:    grunt.file.readJSON( 'package.json' ),
+		// SHELL COMMANDS
+	    shell: {
+	        downloadInstallWP: {
+	            command: 'wp core download --path=source --locale=<%= pkg.locale %>'
+	        },
+	        configureDatabaseWP: {
+	            command: [
+	            	'cd source',
+	            	'wp core config --dbname=<%= pkg.database.dbname %> --dbuser=<%= pkg.database.dbuser %> --dbpass=<%= pkg.database.dbpassword %> --dbhost=<%= pkg.database.dbhost %> --dbprefix=<%= pkg.database.dbprefix %> --extra-php <<PHP'
+            	].join('&&')
+	        },
+	        initialConfigsWP: {
+	        	command: [
+		        	'cd source',
+		            'wp db create',
+		        	'wp core install --url=<%= pkg.homepage %> --title=<%= pkg.title %> --admin_user=<%= pkg.admin_user %> --admin_password=<%= pkg.admin_pass %> --admin_email=<%= pkg.admin_email %>'
+	        	].join('&&')
+	        },
+	        updateWP: {
+	        	command: [
+	        		'cd source',
+	        		'wp core update'
+	        	].join('&&')
+	        },
+	        clearThemesWP: {
+	        	command: [
+	        	'cd source',
+	        	'wp theme activate DONFramework',
+	        	'wp theme delete twentyfifteen',
+	        	'wp theme delete twentyfourteen',
+	        	'wp theme delete twentysixteen',
+	        	'cd ../',
+	        	'rm -r DONFramework.zip'
+	        	].join('&&')
+	        },
+	        setActiveThemeWP: {
+	        	command: [
+	        	'cd source',
+	        	'wp theme activate <%= pkg.name %>'
+	        	].join('&&')
+	        },
+	        dumpDatabaseWP: {
+	        	command: [
+	        		'cd build',
+	        		'mkdir database',
+	        		'cd ../source',
+	        		'wp db export --add-drop-table ../build/database/dump_<%= pkg.name %>.sql'
+	        	].join('&&')
+	        }
+	    },
+	    // CONCAT JS
 		concat: {
 			options: {
 				stripBanners: true,
@@ -36,6 +87,7 @@ module.exports = function( grunt ) {
 				dest: 'source/wp-content/themes/<%= pkg.name %>/assets/js/don_child_plugins.js'
 			}
 		},
+		// VALIDADE JS
 		jshint: {
 			browser: {
 				all: [
@@ -55,6 +107,7 @@ module.exports = function( grunt ) {
 				}
 			}   
 		},
+		// COMPACT JS
 		uglify: {
 			all: {
 				files: [
@@ -78,6 +131,7 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
+		// GENERATE SPRITES
 		sprites: {
 			theme: {
 				src: ['source/wp-content/themes/<%= pkg.name %>/images/src/*.png'],
@@ -85,7 +139,8 @@ module.exports = function( grunt ) {
 				map: 'source/wp-content/themes/<%= pkg.name %>/images/don_child_sprite.png'
 			}
 		},
-		sass:   {
+		// COMPILE SASS
+		sass: {
 			all: {
 				files: 
 				[{
@@ -97,7 +152,7 @@ module.exports = function( grunt ) {
 				}]
 			}
 		},
-		
+		// MINIFY CSS
 		cssmin: {
 			options: {
 				banner: '/*! <%= pkg.title %> - v<%= pkg.version %> - \n'+
@@ -111,6 +166,7 @@ module.exports = function( grunt ) {
 				'source/wp-content/themes/<%= pkg.name %>/assets/css/don_child.min.css' : ['source/wp-content/themes/<%= pkg.name %>/assets/css/don_child.css']
 			}
 		},
+		// REPLACE SOME STRINGS IN FILES
 		'string-replace': {
 			main: {
 				files: {    
@@ -127,49 +183,20 @@ module.exports = function( grunt ) {
 					}]
 				}
 			},
-			wpconfig: {
-				files: {
-					'source/wp-config.php' : 'source/wp-config.php'
+			setThemePath: {
+				files: {    
+					'source/wp-content/themes/<%= pkg.name %>/functions.php' : 'source/wp-content/themes/<%= pkg.name %>/functions.php' 
 				},
 				options: {
 					replacements: [{
-						pattern: /'DB_NAME', '(\w)*'/ig,
-						replacement: "'DB_NAME', '<%= pkg.database.dbname %>'"
-					},
-					{
-						pattern: /'DB_USER', '(\w)*'/ig,
-						replacement: "'DB_USER', '<%= pkg.database.dbuser %>'"
-					},
-					{
-						pattern: /'DB_PASSWORD', '(\w)*'/ig,
-						replacement: "'DB_PASSWORD', '<%= pkg.database.dbpassword %>'"
-					}
-					,
-					{
-						pattern: /'DB_HOST', '(\w)*'/ig,
-						replacement: "'DB_HOST', '<%= pkg.database.dbhost %>'"
-					}]
-				}
-			},
-			localScript:{
-				files: {
-					'database/' : 'database/*.sql'
-				},
-				options: {
-					replacements: [
-					{
-						pattern: /\(1, 'siteurl', '(\w|\/|\:)*', 'yes'\)/ig,
-						replacement: "(1, 'siteurl', 'http://localhost/<%= pkg.code %>', 'yes')"
-					},
-					{
-						pattern: /\(36, 'home', '(\w|\/|\:)*', 'yes'\)/ig,
-						replacement: "(36, 'home', 'http://localhost/<%= pkg.code %>', 'yes')"
+						pattern: /--TEMPLATE--/ig,
+						replacement: '<%= pkg.name %>'
 					}]
 				}
 			},
 			changeVersion: {
 				files: {
-					'source/wp-config.php' : 'source/wp-config.php'
+					'source/wp-content/themes/<%= pkg.name %>/functions.php' : 'source/wp-content/themes/<%= pkg.name %>/functions.php'
 				},
 				options: {
 					replacements: [{
@@ -205,24 +232,13 @@ module.exports = function( grunt ) {
 						replacement: "'DB_HOST', '<%= deployConfig.server %>'"
 					}]
 				}
-			},
-			deployScript:{
-				files: {
-					'build/database/' : 'build/database/*.sql'
-				},
-				options: {
-					replacements: [
-					{
-						pattern: /\(1, 'siteurl', '(\w|\/|\:)*', 'yes'\)/ig,
-						replacement: "(1, 'siteurl', '<%= deployConfig.url %>', 'yes')"
-					},
-					{
-						pattern: /\(36, 'home', '(\w|\/|\:)*', 'yes'\)/ig,
-						replacement: "(36, 'home', '<%= deployConfig.url %>', 'yes')"
-					}]
-				}
 			}
 		},
+		// UNZIP MASTER THEME
+		unzip: {
+			'source/wp-content/themes/': 'DONFramework.zip'
+		},
+		// COPY CHILD THEME AND DEPLOY FILES
 		copy: {
 			main:{
 				files: [
@@ -239,6 +255,7 @@ module.exports = function( grunt ) {
 				]
 			}
 		},
+		// WATCH FOR FILES CHANGES
 		watch:{
 			options:{
 				livereload: true
@@ -276,11 +293,12 @@ module.exports = function( grunt ) {
 			},
 			livereload:{
 				files:[
-				'source/wp-content/themes/<%= pkg.name %>/**/*.{php,html,jpg,jpeg}',
+				'source/wp-content/themes/<%= pkg.name %>/**/*.{php,html,jpg,jpeg,png,gif}',
 				'source/wp-content/themes/DONFramework/**/*.{php,html}'
 				]
 			}
 		},
+		// CLEAN TEMP FILES
 		clean: {
 			preDeploy: {
 				src: [ 'build' ]
@@ -296,6 +314,7 @@ module.exports = function( grunt ) {
 				]
 			},
 		},
+		// PROMPT START MENU
 		prompt: {
 			startMenu: {
 				options: {
@@ -307,59 +326,65 @@ module.exports = function( grunt ) {
 						default: 'exit',
 						choices: [
 						{
+							value: 'downloadInstallWP',
+							name: '1) Download Wordpress'
+						},
+						{
+							value: 'configureDatabaseWP',
+							name: '2) Configure Wordpress'
+						},
+						{
+							value: 'initialConfigsWP',
+							name: '3) Install Wordpress'
+						},
+						{
+							value: 'updateWP',
+							name: '4) Update Wordpress to last version'
+						},
+						{
 							value: 'create',
-							name:  'Create a new child theme'
+							name:  '5) Create a new child theme'
 						},
 						{
 							value: 'buildAssets',
-							name: 'Build assets'
+							name: '6) Build assets'
 						},
 						{
 							value: 'deploy',
-							name: 'Deploy application'
+							name: '7) Deploy application'
 						},
 						{
 							value: 'changeVersion',
-							name: 'Change project version'
+							name: '8) Change project version'
 						},
 						{
 							value: 'watch',
-							name: 'Watch for file changes'
-						},
-						{
-							value: 'prepareScript',
-							name: 'Prepare local script for running'
+							name: '8) Watch for file changes'
 						},
 						{
 							value: 'exit',
-							name: 'Exit'.green
+							name: '0) Exit'
 						}
 						]
 					}
 					]
 				}
 			},
-			create: {
+			downloadInstall: {
 				options: {
 					questions: [
 					{
-						config: 'pkg.name',
+						config: 'pkg.locale',
+						default: 'en_US',
 						type: 'input',
-						message: 'Theme name:',
-						validate: function (value) {
-							var valid = (value !== '');
-							return valid || 'Theme name cannot be empty!'.red.underline;
-						}
-					},
-					{
-						config: 'pkg.code',
-						type: 'input',
-						message: 'Project code:',
-						validate: function (value) {
-							var valid = (value !== '');
-							return valid || 'Project code cannot be empty!'.red.underline;
-						}
-					},
+						message: 'What language of Wordpress you want?'
+					}
+					]
+				}
+			},
+			configureDatabase: {
+				options: {
+					questions: [
 					{
 						config: 'pkg.database.dbname',
 						type: 'input',
@@ -390,6 +415,70 @@ module.exports = function( grunt ) {
 						validate: function (value) {
 							var valid = (value !== '');
 							return valid || 'Database host cannot be empty!'.red.underline;
+						}
+					},
+					{
+						config: 'pkg.database.dbprefix',
+						type: 'input',
+						default: 'wpd_',
+						message: 'Tables prefix:'
+					}
+					]
+				}
+			},
+			initialConfigs: {
+				options: {
+					questions: [
+					{
+						config: 'pkg.homepage',
+						type: 'input',
+						message: 'What is the address of your site?'
+					},
+					{
+						config: 'pkg.title',
+						type: 'input',
+						message: 'What is the title of your site?'
+					},
+					{
+						config: 'pkg.admin_user',
+						type: 'input',
+						default: 'admin',
+						message: 'What is the name of admin user?'
+					},
+					{
+						config: 'pkg.admin_pass',
+						type: 'input',
+						default: '12345',
+						message: 'What is the password of the admin user?'
+					},
+					{
+						config: 'pkg.admin_email',
+						type: 'input',
+						default: 'admin@wordpress.local',
+						message: 'What is the email of the admin user?'
+					}
+					]
+				}
+			},
+			create: {
+				options: {
+					questions: [
+					{
+						config: 'pkg.name',
+						type: 'input',
+						message: 'Theme name:',
+						validate: function (value) {
+							var valid = (value !== '');
+							return valid || 'Theme name cannot be empty!'.red.underline;
+						}
+					},
+					{
+						config: 'pkg.code',
+						type: 'input',
+						message: 'Project code:',
+						validate: function (value) {
+							var valid = (value !== '');
+							return valid || 'Project code cannot be empty!'.red.underline;
 						}
 					}
 					]
@@ -464,20 +553,20 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	// Default task.
+	// DEFAULT TASK
 	grunt.registerTask( 'default', function(){
 		var version = grunt.config('pkg.framework_version');
-		grunt.log.ok('DONFramework - v'+version);
+		grunt.log.ok('DONFramework - '+version.cyan);
 		grunt.task.run(['prompt:startMenu', '-']);
 	});
 	
 
 	/*****************************************************************************************************************
 	*													*
-	*	PRIVATE TASK LIST 									*
+	*	PRIVATE TASK LIST 								*
 	*													*
 	******************************************************************************************************************/
-		// Startup menu handling
+		// STARTUP MENU HANDLING
 		grunt.registerTask('-', function(){
 			var pkg = grunt.config('pkg');
 			grunt.file.write('package.json', JSON.stringify(pkg,null,2));
@@ -487,22 +576,58 @@ module.exports = function( grunt ) {
 				grunt.task.run([nextTask, 'default']);
 		});
 
-		//Creates a new child theme
-		grunt.registerTask( 'create', function(){
-			var tasks = ['prompt:create', 'copy:main', 'string-replace:main', 'string-replace:wpconfig', 'string-replace:localScript', 'string-replace:changeVersion'];
+		// DOWNLOAD WORDPRESS
+		grunt.registerTask( 'downloadInstallWP', function(){
+			var tasks = ['prompt:downloadInstall','shell:downloadInstallWP'];
 			grunt.task.run(tasks);
-		}).registerTask( 'c', function(){
-			var tasks = ['prompt:create', 'copy:main', 'string-replace:main', 'string-replace:wpconfig', 'string-replace:localScript', 'string-replace:changeVersion'];
+		}).registerTask( 'getwp', function(){
+			var tasks = ['prompt:downloadInstall','shell:downloadInstallWP'];
 			grunt.task.run(tasks);
 		});
 
-		// Call watch
+		// CONFIGURE WP
+		grunt.registerTask( 'configureDatabaseWP', function(){
+			var tasks = ['prompt:configureDatabase','shell:configureDatabaseWP'];
+			grunt.task.run(tasks);
+		}).registerTask( 'configwp', function(){
+			var tasks = ['prompt:configureDatabase','shell:configureDatabaseWP'];
+			grunt.task.run(tasks);
+		});
+
+		// INSTALL WP
+		grunt.registerTask( 'initialConfigsWP', function(){
+			var tasks = ['prompt:initialConfigs','shell:initialConfigsWP'];
+			grunt.task.run(tasks);
+		}).registerTask( 'installwp', function(){
+			var tasks = ['prompt:initialConfigs','shell:initialConfigsWP'];
+			grunt.task.run(tasks);
+		});
+
+		// UPDATE WP
+		grunt.registerTask( 'updateWP', function(){
+			var tasks = ['shell:updateWP'];
+			grunt.task.run(tasks);
+		}).registerTask( 'updatewp', function(){
+			var tasks = ['shell:updateWP'];
+			grunt.task.run(tasks);
+		});
+
+		// CREATES A NEW CHILD THEME
+		grunt.registerTask( 'create', function(){
+			var tasks = ['prompt:create', 'unzip', 'shell:clearThemesWP', 'copy:main', 'string-replace:main', 'string-replace:setThemePath', 'shell:setActiveThemeWP', 'string-replace:changeVersion'];
+			grunt.task.run(tasks);
+		}).registerTask( 'c', function(){
+			var tasks = ['prompt:create', 'unzip', 'shell:clearThemesWP', 'copy:main', 'string-replace:main', 'string-replace:setThemePath', 'shell:setActiveThemeWP', 'string-replace:changeVersion'];
+			grunt.task.run(tasks);
+		});
+
+		// CALL WATCH
 		grunt.registerTask( 'w', function(){
-			var tasks = ['prompt:create', 'copy:main', 'string-replace:main', 'string-replace:wpconfig', 'string-replace:localScript', 'string-replace:changeVersion'];
+			var tasks = ['watch'];
 			grunt.task.run(tasks);
 		})
 
-		//Changes project version
+		// CHANGE PROJECT VERSION
 		grunt.registerTask( 'changeVersion', function(){
 			var tasks = ['prompt:changeVersion', 'string-replace:changeVersion'];
 			grunt.task.run(tasks);
@@ -511,6 +636,7 @@ module.exports = function( grunt ) {
 			grunt.task.run(tasks);
 		});
 
+		// BUILD ALL ASSETS
 		grunt.registerTask('buildAssets', function(){
 			var tasks = ['sprites', 'buildStyle', 'buildScript'];
 			grunt.task.run(tasks);
@@ -519,7 +645,7 @@ module.exports = function( grunt ) {
 			grunt.task.run(tasks);
 		});
 
-		//Compile sass
+		// COMPILE SASS
 		grunt.registerTask('buildStyle', function(){
 			var tasks = ['sass'];
 			grunt.task.run(tasks);
@@ -528,7 +654,7 @@ module.exports = function( grunt ) {
 			grunt.task.run(tasks);
 		});
 
-		//Compile js
+		// COMPILE JS
 		grunt.registerTask('buildScript', function(){
 			var tasks = ['jshint', 'concat'];
 			grunt.task.run(tasks);
@@ -537,22 +663,15 @@ module.exports = function( grunt ) {
 			grunt.task.run(tasks);
 		});
 
-		//Minify
+		// BUILD AND DEPLOY FILES
 		grunt.registerTask('deploy', function(){
-			var tasks = ['prompt:deploy', 'clean:preDeploy', 'buildAssets', 'uglify', 'cssmin', 'copy:deploy', 'clean:posDeploy', 'string-replace:deployWpconfig', 'string-replace:deployScript'];
+			var tasks = ['prompt:deploy', 'clean:preDeploy', 'buildAssets', 'uglify', 'cssmin', 'copy:deploy', 'clean:posDeploy', 'string-replace:deployWpconfig', 'shell:dumpDatabaseWP'];
 			grunt.option('force', true);
 			grunt.task.run(tasks);
 		}).registerTask('d', function(){
-			var tasks = ['prompt:deploy', 'clean:preDeploy', 'buildAssets', 'uglify', 'cssmin', 'copy:deploy', 'clean:posDeploy', 'string-replace:deployWpconfig', 'string-replace:deployScript'];
+			var tasks = ['prompt:deploy', 'clean:preDeploy', 'buildAssets', 'uglify', 'cssmin', 'copy:deploy', 'clean:posDeploy', 'string-replace:deployWpconfig', 'shell:dumpDatabaseWP'];
 			grunt.option('force', true);
 			grunt.task.run(tasks);
-		});
-
-		//Prepare local script
-		grunt.registerTask('prepareScript', function(){
-			var pkg = grunt.file.readJSON( 'package.json' );
-			grunt.log.ok('Preparing script for:\nProject code:'+pkg.code+'\n');
-			grunt.task.run('string-replace:localScript');
 		});
 
 		grunt.util.linefeed = '\n';

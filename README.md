@@ -1,9 +1,13 @@
 # WORDPRESS-AUTOMATION
 
-This boilerplate create automations for Wordpress projects. It turn more easer the developer's life.
+This can be called "framework" that create automations for some common tasks in Wordpress projects. It turn more easer the developer's life.
 
 Functions included:
 
+*   Download Wordpress
+*   Configure Wordpress
+*   Install Wordpress
+*   Update Wordpress
 *   [Create new theme](#create-new-theme-development) 
 *   [Build styles](#build-styles) into one minified file
 *   [Build javascript](#build-scripts) into one hint and minified file
@@ -11,23 +15,19 @@ Functions included:
 *   [Observe](#watch) files changes and automatically build assets and refreash browser
 *   Prepare project to [deploy](#deploy-production)
 
-All this options can be accessed by [start menu](#start-menu) of boilerplate.
-
-## Cautions after clone
-1. Update Wordpress core and plugins if newer version exists.
-2. Uptdate database variables siteurl, home, admin_email. Helper script is [here](/database)
-3. The Admin credentials are username: admin, password: 12345.
+All this options can be accessed by [start menu](#start-menu).
 
 ## Requirements
 
-This libraries are required to run the boilerplate automations, NodeJS is required to perform the GruntJS tasks such, hint javascript, generate sprites of images, live reload of project and SASS is required to perform pre-professing of css files.
+This libraries are required to run the automations, WP-CLI is required to run Wordpress command line procedures, NodeJS is required to perform the GruntJS tasks such, wp-cli, hint javascript, generate sprites of images, live reload of project and SASS is required to perform pre-processing of css files.
 
+*   WP-CLI ([All](http://wp-cli.org/docs/installing/))
 *   NodeJS ([Windows](http://nodejs.org/download/ "Node for windows")|[MAC OS](http://shapeshed.com/setting-up-nodejs-and-npm-on-mac-osx/ "Node for MAC"))
 *   SASS ([All](http://sass-lang.com/install "SASS for all"))
 
 ## Installation
 
-After installal the requirements, type this command on terminal to install Gunt-CLI globally:
+After install all the requirements, type this command on terminal to install Gunt-CLI globally:
 
 ```shell
 npm install -g grunt-cli
