@@ -377,7 +377,7 @@ module.exports = function( grunt ) {
 						config: 'pkg.locale',
 						default: 'en_US',
 						type: 'input',
-						message: 'What language of Wordpress you want?'
+						message: 'What is the language of Wordpress you want?'
 					}
 					]
 				}

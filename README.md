@@ -4,16 +4,17 @@ This can be called "framework" that create automations for some common tasks in 
 
 Functions included:
 
-*   Download Wordpress
-*   Configure Wordpress
-*   Install Wordpress
-*   Update Wordpress
-*   [Create new theme](#create-new-theme-development) 
-*   [Build styles](#build-styles) into one minified file
-*   [Build javascript](#build-scripts) into one hint and minified file
+*   [Download Wordpress](#1-download-wordpress)
+*   [Configure Wordpress](#2-configure-wordpress)
+*   [Install Wordpress](#3-install-wordpress)
+*   [Update Wordpress](#4-update-wordpress)
+*   [Create new theme](#5-create-new-theme-development) 
+*   [Build assets](#6-build-assets)
+    *   [Build styles](#build-styles) into one minified file
+    *   [Build javascript](#build-scripts) into one hint and minified file
 *   Generate sprites of the images used in project
-*   [Observe](#watch) files changes and automatically build assets and refreash browser
-*   Prepare project to [deploy](#deploy-production)
+*   [Observe](#9-watch) files changes and automatically build assets and refreash browser
+*   Prepare project to [deploy](#7-deploy-production)
 
 All this options can be accessed by [start menu](#start-menu).
 
@@ -53,7 +54,70 @@ and select the option you want.
 
 ![alt text](http://www.donini.me/github/wpbp/wpbp_startmenu.png "Start menu all options")
 
-### Create new theme [DEVELOPMENT]
+### 1) Download Wordpress
+
+This option will be download the lasted version of wordpress, if you want you can select the core language.
+
+To initialize download, use:
+```shell
+grunt getwp
+```
+
+
+#### Parameters:
+
+*What is the language of Wordpress you want?:* default is en_US
+
+![alt text](http://www.donini.me/github/wpbp/wpbp_download.png "Download Wordpress")
+
+### 2) Configure Wordpress
+
+This command just create the wp-config.php file with your settings.
+
+To configure, use:
+```shell
+grunt configwp
+```
+
+![alt text](http://www.donini.me/github/wpbp/wpbp_configure.png "Configure Wordpress")
+
+#### Parameters:
+
+*Database:* database name
+*Database user:* username of database
+*Database password:* password of user
+*Database host:*  host of IP address
+*Tables prefix host:*  default wpd_
+
+### 3) Install Wordpress
+
+This command will be create the database and install Wordpress with settings you entered in option 2.
+
+To install, use:
+```shell
+grunt installwp
+```
+
+![alt text](http://www.donini.me/github/wpbp/wpbp_install.png "Install Wordpress")
+
+#### Parameters:
+
+*What is the address of your site?* the url of of your project
+*What is the title of your site?* the title of your project (if title has spaces, use doublequotes)
+*What is the name of admin user?* the admin fo Wordpress
+*What is the password of the admin user?* the password of admin user
+*What is the email of the admin user?* the e-mail of administrator
+
+### 4) Update Wordpress
+
+This command update the core wordpress of your project.
+
+To update, use:
+```shell
+grunt updatewp
+```
+
+### 5) Create new theme [DEVELOPMENT]
 
 To create a new custom theme, use:
 ```shell
@@ -65,29 +129,25 @@ grunt create        [OR]        grunt c
 #### Parameters:
 
 *Theme name:* the name of your theme/project
-*Project code:* the code of your project
-*Database:* the host of your database
-*Database user:* the user of your database
-*Database password:* the password of user of your database
-*Database host:* the schema name
+*Project code:* the code of your project<sup>1</sup>
 
 ##### Observations:
 
 <sup>1</sup> This will be your url path to access project. Ex. http://localhost/PROJECT_CODE
-<sup>2</sup> The informations of database will be add to wp-config.php automatically.
-<sup>3</sup> After create new theme it will be necessary access wp-admin, and go to on  Appearance \ Customize menu, and select the current theme to your theme just created.
 
-### Build Assets
+### 6) Build Assets
 
-To build all styles, javascript and create sprite file, type this:
+To build all styles<sup>2</sup>, javascript and create sprite file, type this:
 
 ```shell
 grunt buildAssets        [OR]        grunt ba
 ```
 
-<sup>4</sup> At this moment those files are not minified, it's just were unified.
+<sup>2</sup> At this moment those files are not minified, it's just were unified.
 
-### Build Styles
+#### Sub Commands
+
+##### Build Styles
 
 It's possible to build only the styles, this procedure will be process .scss  files and unify all css results into a single file. To do this, type:
 
@@ -95,7 +155,7 @@ It's possible to build only the styles, this procedure will be process .scss  fi
 grunt buildStyle        [OR]        grunt bs
 ```
 
-### Build Scripts
+##### Build Scripts
 
 It's possible to build only the javascript, this procedure will be unify all .js results into a single file. To do this, type:
 
@@ -103,19 +163,9 @@ It's possible to build only the javascript, this procedure will be unify all .js
 grunt buildScript        [OR]        grunt bj
 ```
 
-### Watch
+### 7) Deploy [PRODUCTION]
 
-This is one of the collest features of this boilerplate, this command observing files changing and build all assets and tiggers refresh to the browser automatically, type:
-
-```shell
-grunt watch        [OR]        grunt w
-```
-
-<sup>5</sup> Watch command observe changes only in .scss, .js, .php, .html, .png, .gif, .jpg files.
-
-### Deploy [PRODUCTION]
-
-This command prepare the project to deploy into production server, it build everything and minify files, type:
+This command prepare the project to deploy into production server, it build<sup>3</sup> everything and minify files, type:
 
 ```shell
 grunt deploy        [OR]        grunt d
@@ -131,17 +181,27 @@ grunt deploy        [OR]        grunt d
 *Deploy database password:* password of user
 *Deploy database server:*  host of IP address
 
-<sup>6</sup> The result of the compilation will be found 'build' folder at root. The source files (of assets) will not be sent to this folder.
+<sup>3</sup> The result of the compilation will be found 'build' folder at root, this contains Wordpress files and an dump of database. The source files (of assets) will not be sent to this folder.
 
-### Change version
+### 8) Change version
 
-It's possible to controll the versions of your theme/project, type:
+It's possible to controll<sup>4</sup> the versions of your theme/project, type:
 
 ```shell
 grunt changeVersion        [OR]        grunt cv
 ```
 
-<sup>7</sup> Using this you prevent cache in assets files after each new deploy.
+<sup>4</sup> Using this you prevent cache in assets files after each new deploy.
+
+### 9) Watch
+
+This is one of the collest features of this framework, this command observing files changing and build all assets and tiggers refresh to the browser automatically, type:
+
+```shell
+grunt watch        [OR]        grunt w
+```
+
+<sup>5</sup> Watch command observe changes only in .scss, .js, .php, .html, .png, .gif, .jpg files.
 
 ## Framework features
 
