@@ -205,8 +205,8 @@ grunt watch        [OR]        grunt w
 
 ## Framework features
 
-*   [Ready to build single-page](READY-TO-BUILD-SINGLE-PAGE.md)
-*   [Javascript helper variables](JAVASCRIPT-HELPER-VARIABLES.md)
+*   [Ready to build single-page](./READY-TO-BUILD-SINGLE-PAGE.md)
+*   [Javascript helper variables](./JAVASCRIPT-HELPER-VARIABLES.md)
 
 ## Suggest new features and register issues
 
