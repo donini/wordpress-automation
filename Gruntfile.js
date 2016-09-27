@@ -327,19 +327,19 @@ module.exports = function( grunt ) {
 						choices: [
 						{
 							value: 'downloadInstallWP',
-							name: '1) Download Wordpress'
+							name: '1) Download WordPress'
 						},
 						{
 							value: 'configureDatabaseWP',
-							name: '2) Configure Wordpress'
+							name: '2) Configure WordPress'
 						},
 						{
 							value: 'initialConfigsWP',
-							name: '3) Install Wordpress'
+							name: '3) Install WordPress'
 						},
 						{
 							value: 'updateWP',
-							name: '4) Update Wordpress to last version'
+							name: '4) Update WordPress to last version'
 						},
 						{
 							value: 'create',
@@ -377,7 +377,7 @@ module.exports = function( grunt ) {
 						config: 'pkg.locale',
 						default: 'en_US',
 						type: 'input',
-						message: 'What is the language of Wordpress you want?'
+						message: 'What is the language of WordPress you want?'
 					}
 					]
 				}

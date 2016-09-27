@@ -1,13 +1,13 @@
 # WORDPRESS-AUTOMATION
 
-This can be called "framework" that create automations for some common tasks in Wordpress projects. It turn more easer the developer's life.
+This can be called "framework" that create automations for some common tasks in WordPress projects. It turn more easer the developer's life.
 
 Functions included:
 
-*   [Download Wordpress](#1-download-wordpress)
-*   [Configure Wordpress](#2-configure-wordpress)
-*   [Install Wordpress](#3-install-wordpress)
-*   [Update Wordpress](#4-update-wordpress)
+*   [Download WordPress](#1-download-wordpress)
+*   [Configure WordPress](#2-configure-wordpress)
+*   [Install WordPress](#3-install-wordpress)
+*   [Update WordPress](#4-update-wordpress)
 *   [Create new theme](#5-create-new-theme-development) 
 *   [Build assets](#6-build-assets)
     *   [Build styles](#build-styles) into one minified file
@@ -20,7 +20,7 @@ All this options can be accessed by [start menu](#start-menu).
 
 ## Requirements
 
-This libraries are required to run the automations, WP-CLI is required to run Wordpress command line procedures, NodeJS is required to perform the GruntJS tasks such, wp-cli, hint javascript, generate sprites of images, live reload of project and SASS is required to perform pre-processing of css files.
+This libraries are required to run the automations, WP-CLI is required to run WordPress command line procedures, NodeJS is required to perform the GruntJS tasks such, wp-cli, hint javascript, generate sprites of images, live reload of project and SASS is required to perform pre-processing of css files.
 
 *   WP-CLI ([All](http://wp-cli.org/docs/installing/))
 *   NodeJS ([Windows](http://nodejs.org/download/ "Node for windows")|[MAC OS](http://shapeshed.com/setting-up-nodejs-and-npm-on-mac-osx/ "Node for MAC"))
@@ -54,7 +54,7 @@ and select the option you want.
 
 ![alt text](http://www.donini.me/github/wpbp/wpbp_startmenu.png "Start menu all options")
 
-### 1) Download Wordpress
+### 1) Download WordPress
 
 This option will be download the lasted version of wordpress, if you want you can select the core language.
 
@@ -66,11 +66,11 @@ grunt getwp
 
 #### Parameters:
 
-*What is the language of Wordpress you want?:* default is en_US
+*What is the language of WordPress you want?:* default is en_US
 
-![alt text](http://www.donini.me/github/wpbp/wpbp_download.png "Download Wordpress")
+![alt text](http://www.donini.me/github/wpbp/wpbp_download.png "Download WordPress")
 
-### 2) Configure Wordpress
+### 2) Configure WordPress
 
 This command just create the wp-config.php file with your settings.
 
@@ -79,7 +79,7 @@ To configure, use:
 grunt configwp
 ```
 
-![alt text](http://www.donini.me/github/wpbp/wpbp_configure.png "Configure Wordpress")
+![alt text](http://www.donini.me/github/wpbp/wpbp_configure.png "Configure WordPress")
 
 #### Parameters:
 
@@ -89,26 +89,26 @@ grunt configwp
 *Database host:*  host of IP address
 *Tables prefix host:*  default wpd_
 
-### 3) Install Wordpress
+### 3) Install WordPress
 
-This command will be create the database and install Wordpress with settings you entered in option 2.
+This command will be create the database and install WordPress with settings you entered in option 2.
 
 To install, use:
 ```shell
 grunt installwp
 ```
 
-![alt text](http://www.donini.me/github/wpbp/wpbp_install.png "Install Wordpress")
+![alt text](http://www.donini.me/github/wpbp/wpbp_install.png "Install WordPress")
 
 #### Parameters:
 
 *What is the address of your site?* the url of of your project
 *What is the title of your site?* the title of your project (if title has spaces, use doublequotes)
-*What is the name of admin user?* the admin fo Wordpress
+*What is the name of admin user?* the admin fo WordPress
 *What is the password of the admin user?* the password of admin user
 *What is the email of the admin user?* the e-mail of administrator
 
-### 4) Update Wordpress
+### 4) Update WordPress
 
 This command update the core wordpress of your project.
 
@@ -181,7 +181,7 @@ grunt deploy        [OR]        grunt d
 *Deploy database password:* password of user
 *Deploy database server:*  host of IP address
 
-<sup>3</sup> The result of the compilation will be found 'build' folder at root, this contains Wordpress files and an dump of database. The source files (of assets) will not be sent to this folder.
+<sup>3</sup> The result of the compilation will be found 'build' folder at root, this contains WordPress files and an dump of database. The source files (of assets) will not be sent to this folder.
 
 ### 8) Change version
 
