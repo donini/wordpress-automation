@@ -56,7 +56,7 @@ and select the option you want.
 
 ### 1) Download WordPress
 
-This option will be download the lasted version of wordpress, if you want you can select the core language.
+This option will be download the lasted version of WordPress, if you want you can select the core language.
 
 To initialize download, use:
 ```shell
@@ -110,7 +110,7 @@ grunt installwp
 
 ### 4) Update WordPress
 
-This command update the core wordpress of your project.
+This command update the core WordPress of your project.
 
 To update, use:
 ```shell
