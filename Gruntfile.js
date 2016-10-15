@@ -134,9 +134,9 @@ module.exports = function( grunt ) {
 		// GENERATE SPRITES
 		sprites: {
 			theme: {
-				src: ['source/wp-content/themes/<%= pkg.name %>/images/src/*.png'],
+				src: ['source/wp-content/themes/<%= pkg.name %>/assets/images/src/*.png'],
 				css: 'source/wp-content/themes/<%= pkg.name %>/assets/css/sass/_don_child_sprite.scss',
-				map: 'source/wp-content/themes/<%= pkg.name %>/images/don_child_sprite.png'
+				map: 'source/wp-content/themes/<%= pkg.name %>/assets/images/don_child_sprite.png'
 			}
 		},
 		// COMPILE SASS
@@ -278,14 +278,14 @@ module.exports = function( grunt ) {
 				}
 			},
 			imagesDon:{
-				files: ['source/wp-content/themes/DONFramework/images/src/*.png'],
+				files: ['source/wp-content/themes/DONFramework/assets/images/src/*.png'],
 				tasks: ['sprites:don'],
 				options:{
 					livereload: true
 				}
 			},
 			imagesTheme:{
-				files: ['source/wp-content/themes/<%= pkg.name %>/images/src/*.png'],
+				files: ['source/wp-content/themes/<%= pkg.name %>/assets/images/src/*.png'],
 				tasks: ['sprites:theme'],
 				options:{
 					livereload: true
@@ -296,6 +296,22 @@ module.exports = function( grunt ) {
 				'source/wp-content/themes/<%= pkg.name %>/**/*.{php,html,jpg,jpeg,png,gif}',
 				'source/wp-content/themes/DONFramework/**/*.{php,html}'
 				]
+			}
+		},
+		// IMAGE OPTIMIZATION
+		imagemin: {
+			dist: {
+				options: {
+					optimizationLevel: 7,
+					progressive: true
+				},
+				files: [{
+					expand: true,
+					filter: 'isFile',
+					cwd: 'source/wp-content/themes/<%= pkg.name %>/assets/images/',
+					src: '**/*.{png,jpg,gif}',
+					dest: 'source/wp-content/themes/<%= pkg.name %>/assets/images/'
+				}]
 			}
 		},
 		// CLEAN TEMP FILES
@@ -309,7 +325,7 @@ module.exports = function( grunt ) {
 				'build/files/wp-content/themes/<%= pkg.name %>/assets/css/sass',
 				'build/files/wp-content/themes/<%= pkg.name %>/assets/js/src',
 				'build/files/wp-content/themes/<%= pkg.name %>/assets/js/vendor',
-				'build/files/wp-content/themes/<%= pkg.name %>/images/src',
+				'build/files/wp-content/themes/<%= pkg.name %>/assets/images/src',
 				'build/**/*md'
 				]
 			},
@@ -359,7 +375,7 @@ module.exports = function( grunt ) {
 						},
 						{
 							value: 'watch',
-							name: '8) Watch for file changes'
+							name: '9) Watch for file changes'
 						},
 						{
 							value: 'exit',
@@ -638,10 +654,10 @@ module.exports = function( grunt ) {
 
 		// BUILD ALL ASSETS
 		grunt.registerTask('buildAssets', function(){
-			var tasks = ['sprites', 'buildStyle', 'buildScript'];
+			var tasks = ['sprites', 'buildStyle', 'buildScript', 'imagemin'];
 			grunt.task.run(tasks);
 		}).registerTask('ba', function(){
-			var tasks = ['sprites', 'buildStyle', 'buildScript'];
+			var tasks = ['sprites', 'buildStyle', 'buildScript', 'imagemin'];
 			grunt.task.run(tasks);
 		});
 
