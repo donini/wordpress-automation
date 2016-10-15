@@ -137,7 +137,7 @@ grunt create        [OR]        grunt c
 
 ### 6) Build Assets
 
-To build all styles<sup>2</sup>, javascript and create sprite file, type this:
+To build all styles<sup>2</sup>, javascript, minify images and create sprite file, type this:
 
 ```shell
 grunt buildAssets        [OR]        grunt ba
@@ -211,3 +211,5 @@ grunt watch        [OR]        grunt w
 ## Suggest new features and register issues
 
 Use the Issues menu of this repository to register issues, doubts and suggest new features.
+
+See [changelog](./CHANGELOG.md) of project.
